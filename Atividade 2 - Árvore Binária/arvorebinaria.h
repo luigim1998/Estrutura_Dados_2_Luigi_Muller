@@ -1,5 +1,5 @@
-#ifndef ARVORE_H_
-#define ARVORE_H_
+#ifndef ARVOREBINARIA_H_
+#define ARVOREBINARIA_H_
 
 typedef struct no{
     char info;

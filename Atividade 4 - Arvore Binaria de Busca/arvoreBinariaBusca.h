@@ -32,4 +32,12 @@ int quant_nos(Nodo * raiz);
 int arv_busca_k_valor(Arv_bin * arv, int k);
 int arv_busca_k_valor_no(Nodo * raiz, int k);
 int quant_nos(Nodo * raiz);
+bool arv_iguais(Arv_bin * arv1, Arv_bin * arv2);
+bool arv_iguais_no(Nodo * raiz1, Nodo * raiz2);
+int quant_um_filho(Arv_bin * arv);
+int quant_um_filho_no(Nodo * raiz);
+Nodo * reconstruir(int * prefixo, int * infixo, int tamanho, int * indice);
+void bubble_sort(int * vetor, int tamanho);
+Arv_bin * constroi_arv(int * entrada, int tamanho);
+
 #endif //ARVOREBINARIABUSCA_H

@@ -193,28 +193,26 @@ int abb_maior_valor_no(Nodo * raiz){
     else return raiz->info;
 }
 
-int abb_menor_valor(Arv_bin * arv){
-    Nodo * aux = new Nodo;
-    if(arv == NULL) return 0;
+int abb_menor_valor(Arv_bin * arv) {
+    Nodo *aux = new Nodo;
+    if (arv == NULL) return 0;
     aux = arv->raiz;
-    if(aux == NULL) return 0;
+    if (aux == NULL) return 0;
 
-    while(aux->esq != NULL){
+    while (aux->esq != NULL) {
         aux = aux->esq;
     }
     return aux->info;
 }
+
 /**
- * Retorna a quantidade de nodos incluindo o que está no parâmetro.
- * @param raiz
- * @return Quantidade de nodos.
+ * Busca o k-ésimo menor valor da árvore.
+ * @param arv Árvore binária;
+ * @param k Valor k para a busca;
+ * @return Resultado da busca ou 0 caso não esteja.
  */
-int quant_nos(Nodo * raiz){
-    if(raiz == NULL){
-        return 0;
-    } else {
-        return 1 + quant_nos(raiz->esq) + quant_nos(raiz->dir);
-    }
+Nodo * arv_busca_k_valor(Arv_bin * arv, int k){
+    return arv_busca_k_valor_no(arv->raiz, &k);
 }
 
 Nodo * arv_busca_k_valor_no(Nodo * raiz, int * k){
@@ -237,26 +235,6 @@ Nodo * arv_busca_k_valor_no(Nodo * raiz, int * k){
         }
     }
     return retorno;
-
-    /*int esquerda = quant_nos(raiz->esq);
-    int direita = quant_nos(raiz->dir);
-    if(esquerda <= k) //ele está na sae
-        return arv_busca_k_valor_no(raiz->esq, k);
-    else if(esquerda + 1 == k)
-        return raiz->info; //é a raiz
-    else if(esquerda + direita + 1 <= k) //ele está na sad
-        return arv_busca_k_valor_no(raiz->dir, k - esquerda - 1);
-        */
-}
-
-/**
- * Busca o k-ésimo menor valor da árvore.
- * @param arv Árvore binária;
- * @param k Valor k para a busca;
- * @return Resultado da busca ou 0 caso não esteja.
- */
-Nodo * arv_busca_k_valor(Arv_bin * arv, int k){
-    return arv_busca_k_valor_no(arv->raiz, &k);
 }
 
 bool arv_iguais(Arv_bin * arv1, Arv_bin * arv2){

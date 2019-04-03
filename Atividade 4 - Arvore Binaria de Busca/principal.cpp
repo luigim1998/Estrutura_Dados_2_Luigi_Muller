@@ -6,7 +6,6 @@ using namespace std;
 int main(){
     Arv_bin * arv = abb_cria();
     Arv_bin * arv2 = abb_cria();
-    int *entrada = new int[10];
     queue<int> fila;
     int tamanho, aux;
 
@@ -25,7 +24,7 @@ int main(){
     //------------Atividade 02------------
     abb_insere(arv, 30);
     arv_imprime(arv);
-    abb_remove_sucessor(arv, 30);
+    abb_remove_sucessor(arv, 40);
     arv_imprime(arv);
 
     //------------Atividade 03------------
@@ -38,9 +37,12 @@ int main(){
     cout << "Menor valor: " << abb_menor_valor(arv) << endl;
 
     //------------Atividade 06------------
-    cout << 7 << "º valor: " << arv_busca_k_valor(arv, 7) << endl;
+    cout << 7 << "o valor: " << arv_busca_k_valor(arv, 7) << endl;
 
     //------------Atividade 07------------
+    abb_insere(arv2, 60); abb_insere(arv2, 80);
+    abb_insere(arv2, 30); abb_insere(arv2, 10);
+    abb_insere(arv2, 50);
     cout << "Arvores iguais? " << arv_iguais(arv, arv2) << endl;
 
     //------------Atividade 08------------
@@ -48,8 +50,10 @@ int main(){
 
     //------------Atividade 09------------
     for(int cont = 0; cont < 10; cont++){
-        cin >> entrada[cont];
+        cin >> aux;
+        fila.push(aux);
     }
+    arv2 = constroi_arv(&fila);
 
     //------------Atividade 10------------
     cout << "Insira o tamanho: ";
@@ -58,5 +62,6 @@ int main(){
         cin >> aux;
         fila.push(aux);
     }
+    cout << "Eh subsequencia? " << arv_subsequencia(arv, &fila, tamanho);
     return 0;
 }

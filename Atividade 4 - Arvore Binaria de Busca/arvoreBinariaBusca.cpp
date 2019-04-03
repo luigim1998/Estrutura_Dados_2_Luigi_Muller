@@ -111,6 +111,7 @@ Nodo * remove_no(Nodo *raiz, int n){
             raiz->esq = remove_no(raiz->esq, n);
         }
     }
+    return raiz;
 }
 /**
  * Ela escolhe o sucessor de n para substituir seu local
@@ -118,7 +119,7 @@ Nodo * remove_no(Nodo *raiz, int n){
  * @param n valor de Busca
  */
 void abb_remove_sucessor(Arv_bin *arv, int n){
-    arv->raiz = remove_no(arv->raiz, n);
+    arv->raiz = remove_no_sucessor(arv->raiz, n);
 }
 
 Nodo * remove_no_sucessor(Nodo *raiz, int n){
@@ -215,18 +216,14 @@ int quant_nos(Nodo * raiz){
         return 1 + quant_nos(raiz->esq) + quant_nos(raiz->dir);
     }
 }
-/**
- * Busca o k-ésimo menor valor da árvore.
- * @param arv Árvore binária;
- * @param k Valor k para a busca;
- * @return Resultado da busca ou 0 caso não esteja.
- */
-int arv_busca_k_valor(Arv_bin * arv, int k){
-    return arv_busca_k_valor_no(arv->raiz, k);
-}
 
-int arv_busca_k_valor_no(Nodo * raiz, int k){
-    int esquerda = quant_nos(raiz->esq);
+int arv_busca_k_valor_no(Nodo * raiz, int * k){
+    if(raiz->esq != NULL) return arv_busca_k_valor_no(raiz->esq, k);
+    --(*k);
+    if(*k == 0) return raiz->info;
+    if(raiz->dir != NULL) return arv_busca_k_valor_no(raiz->dir, k);
+
+    /*int esquerda = quant_nos(raiz->esq);
     int direita = quant_nos(raiz->dir);
     if(esquerda <= k) //ele está na sae
         return arv_busca_k_valor_no(raiz->esq, k);
@@ -234,6 +231,17 @@ int arv_busca_k_valor_no(Nodo * raiz, int k){
         return raiz->info; //é a raiz
     else if(esquerda + direita + 1 <= k) //ele está na sad
         return arv_busca_k_valor_no(raiz->dir, k - esquerda - 1);
+        */
+}
+
+/**
+ * Busca o k-ésimo menor valor da árvore.
+ * @param arv Árvore binária;
+ * @param k Valor k para a busca;
+ * @return Resultado da busca ou 0 caso não esteja.
+ */
+int arv_busca_k_valor(Arv_bin * arv, int k){
+    return arv_busca_k_valor_no(arv->raiz, &k);
 }
 
 bool arv_iguais(Arv_bin * arv1, Arv_bin * arv2){
@@ -281,55 +289,14 @@ int quant_um_filho_no(Nodo * raiz){
     }
 }
 
-Nodo * reconstruir(int * prefixo, int * infixo, int tamanho, int * indice){
-    int posicao;
-    if(tamanho == 0) return NULL; //não há string, então ele não executa
-    Nodo * aux = new Nodo; //ele cria um nodo para alocar espaço para aquele inteiro
-    aux->info = prefixo[0];
-    (*indice)--; //ele decrementa já que aquela posição já foi preenchida
-    if(tamanho == 1){
-        aux->esq = aux->dir = NULL;
-        return aux;
-    } //só há um caractere, cria nodo com o valor e retorna ele
-    for(posicao = 0; posicao < tamanho; posicao++){ //busca a posição que a raiz está em infixo
-        if(infixo[posicao] == prefixo[0]){
-            break;
-        }
+Arv_bin * constroi_arv(queue<int> * entrada){
+    int cont, aux = 0;
+    Arv_bin * arv = abb_cria();
+    while(!(entrada->empty())){
+        abb_insere(arv, entrada->front());
+        entrada->pop();
     }
-    /*Ex:           r                      r
-                    DBACEGF             ABCDEFG
-                        |                   |
-    O prefixo recebe esse valor já que ele está na frente da raiz e da sae(sub-árvore esquerda) e o infixo muda porque a raiz está depois dela*/
-    aux->dir = reconstruir(prefixo+posicao+1, infixo+posicao+1, tamanho-posicao-1, indice);//sad
-    /*Ex:           r                      r
-                    DBACEGF             ABCDEFG
-                     |                  |
-    O prefixo incrementa porque ele pula a raiz e o infixo não muda porque a raiz está depois*/
-    aux->esq = reconstruir(prefixo+1, infixo, posicao, indice);//sae
-}
-
-void bubble_sort(int * vetor, int tamanho){
-    int cont, cont2, aux;
-    for(cont = 0; cont < tamanho - 1; cont++){
-        for(cont2 = cont + 1; cont2 < tamanho; cont2++){
-            if(vetor[cont2] < vetor[cont]){
-                aux = vetor[cont2];
-                vetor[cont2] = vetor[cont];
-                vetor[cont] = aux;
-            }
-        }
-    }
-}
-
-Arv_bin * constroi_arv(int * entrada, int tamanho){
-    int cont;
-    int * inordem = (int *) malloc(tamanho*sizeof(int));
-    Arv_bin * arv = new Arv_bin;
-    for(cont = 0; cont < tamanho; cont++) {
-        inordem[cont] = entrada[cont]; //copia os valores
-    }
-    bubble_sort(inordem, tamanho);
-    arv->raiz = reconstruir(entrada, inordem, tamanho, 0);
+    return arv;
 }
 
 /**
@@ -345,4 +312,9 @@ bool arv_subsequencia(Arv_bin * arv, queue<int> * fila, int tamanho){
         aux.push(arv_busca_no(arv->raiz, fila->front()) );
         fila->pop();
     }
+    while(!aux.empty()){
+        if(aux.front() == NULL) return false;
+        aux.pop();
+    }
+    return true;
 }

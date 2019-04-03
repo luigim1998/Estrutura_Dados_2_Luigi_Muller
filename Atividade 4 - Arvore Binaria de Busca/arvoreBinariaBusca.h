@@ -1,15 +1,18 @@
 #ifndef ARVOREBINARIABUSCA_H
 #define ARVOREBINARIABUSCA_H
 
+#include <queue>
+using namespace std;
+
 typedef struct no{
     int info;
     struct no *esq;
     struct no *dir;
 }Nodo;
 
-typedef struct Arv_bin{
+typedef struct arv_bin{
     Nodo* raiz;
-};
+}Arv_bin;
 
 Arv_bin * abb_cria();
 void arv_imprime(Arv_bin * arv);
@@ -30,14 +33,13 @@ int abb_menor_valor(Arv_bin * arv);
 int abb_menor_valor_no(Nodo * raiz);
 int quant_nos(Nodo * raiz);
 int arv_busca_k_valor(Arv_bin * arv, int k);
-int arv_busca_k_valor_no(Nodo * raiz, int k);
+int arv_busca_k_valor_no(Nodo * raiz, int * k);
 int quant_nos(Nodo * raiz);
 bool arv_iguais(Arv_bin * arv1, Arv_bin * arv2);
 bool arv_iguais_no(Nodo * raiz1, Nodo * raiz2);
 int quant_um_filho(Arv_bin * arv);
 int quant_um_filho_no(Nodo * raiz);
-Nodo * reconstruir(int * prefixo, int * infixo, int tamanho, int * indice);
-void bubble_sort(int * vetor, int tamanho);
-Arv_bin * constroi_arv(int * entrada, int tamanho);
+Arv_bin * constroi_arv(queue<int> * entrada);
+bool arv_subsequencia(Arv_bin * arv, queue<int> * fila, int tamanho);
 
 #endif //ARVOREBINARIABUSCA_H

@@ -37,7 +37,7 @@ int main(){
     cout << "Menor valor: " << abb_menor_valor(arv) << endl;
 
     //------------Atividade 06------------
-    cout << 7 << "o valor: " << arv_busca_k_valor(arv, 7) << endl;
+    cout << 7 << "o valor: " << arv_busca_k_valor(arv, 7)->info << endl;
 
     //------------Atividade 07------------
     abb_insere(arv2, 60); abb_insere(arv2, 80);

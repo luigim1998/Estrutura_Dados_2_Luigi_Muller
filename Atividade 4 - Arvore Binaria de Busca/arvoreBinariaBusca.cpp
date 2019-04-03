@@ -217,11 +217,26 @@ int quant_nos(Nodo * raiz){
     }
 }
 
-int arv_busca_k_valor_no(Nodo * raiz, int * k){
-    if(raiz->esq != NULL) return arv_busca_k_valor_no(raiz->esq, k);
+Nodo * arv_busca_k_valor_no(Nodo * raiz, int * k){
+    Nodo * retorno = NULL, *entrada = NULL;
+
+    if(raiz->esq != NULL){
+        entrada = arv_busca_k_valor_no(raiz->esq, k);
+        if (entrada != NULL){
+            retorno = entrada;
+        }
+    }
     --(*k);
-    if(*k == 0) return raiz->info;
-    if(raiz->dir != NULL) return arv_busca_k_valor_no(raiz->dir, k);
+    if((*k) == 0){
+       retorno = raiz;
+    }
+    if(raiz->dir != NULL){
+        entrada = arv_busca_k_valor_no(raiz->dir, k);
+        if (entrada != NULL){
+            retorno = entrada;
+        }
+    }
+    return retorno;
 
     /*int esquerda = quant_nos(raiz->esq);
     int direita = quant_nos(raiz->dir);
@@ -240,7 +255,7 @@ int arv_busca_k_valor_no(Nodo * raiz, int * k){
  * @param k Valor k para a busca;
  * @return Resultado da busca ou 0 caso não esteja.
  */
-int arv_busca_k_valor(Arv_bin * arv, int k){
+Nodo * arv_busca_k_valor(Arv_bin * arv, int k){
     return arv_busca_k_valor_no(arv->raiz, &k);
 }
 

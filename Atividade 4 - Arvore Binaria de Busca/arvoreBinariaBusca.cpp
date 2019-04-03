@@ -4,12 +4,20 @@
 #include <queue>
 using namespace std;
 
+/**
+ * Cria um árvore.
+ * @return Ponteiro da árvore.
+ */
 Arv_bin * abb_cria(){
     Arv_bin * arv = new Arv_bin;
     arv->raiz = NULL;
     return arv;
 }
 
+/**
+ * Imprime a árvore.
+ * @param arv Árvore a ser impressa.
+ */
 void arv_imprime(Arv_bin * arv){
     arv_imprime_no(arv->raiz);
 }
@@ -22,6 +30,10 @@ void arv_imprime_no(Nodo * raiz){
     }
 }
 
+/**
+ * Apaga a árvore liberando espaço.
+ * @param arv
+ */
 void arv_libera(Arv_bin * arv){
     arv_libera_no(arv->raiz);
     delete arv;
@@ -34,6 +46,12 @@ void arv_libera_no(Nodo * raiz){
     }
 }
 
+/**
+ * Retorna o nodo com a informação de n ou NULL caso contrário.
+ * @param raiz
+ * @param n
+ * @return
+ */
 Nodo * arv_busca_no(Nodo *raiz, int n){
     if(raiz==NULL || raiz->info == n)
         return raiz;
@@ -43,6 +61,12 @@ Nodo * arv_busca_no(Nodo *raiz, int n){
         return arv_busca_no(raiz->dir, n);
 }
 
+/**
+ * Retorna o nodo com a informação de n ou NULL caso contrário.
+ * @param raiz
+ * @param c
+ * @return
+ */
 Nodo * arv_busca_no_iter(Nodo * raiz, char c){
     while(raiz != NULL && raiz->info != c){
         if(c<raiz->info)
@@ -53,6 +77,11 @@ Nodo * arv_busca_no_iter(Nodo * raiz, char c){
     return raiz;
 }
 
+/**
+ * Cria um nodo com n de informaçõa e insere na árvore.
+ * @param arv
+ * @param n
+ */
 void abb_insere(Arv_bin *arv, int n){
     arv->raiz = insere_no(arv->raiz, n);
 }
@@ -163,6 +192,11 @@ Nodo * remove_no_sucessor(Nodo *raiz, int n){
     return raiz;
 }
 
+/**
+ * Analisa se a árvore é de busca e sretorna true ser for ou false caso contrário.
+ * @param raiz
+ * @return
+ */
 bool check_arvBusca(Nodo *raiz){
     if (raiz == NULL){
         return true;
@@ -237,6 +271,12 @@ Nodo * arv_busca_k_valor_no(Nodo * raiz, int * k){
     return retorno;
 }
 
+/**
+ * Retorna true caso as árvores sejam iguias.
+ * @param arv1
+ * @param arv2
+ * @return
+ */
 bool arv_iguais(Arv_bin * arv1, Arv_bin * arv2){
     return arv_iguais_no(arv1->raiz, arv2->raiz);
 }
@@ -262,6 +302,11 @@ bool arv_iguais_no(Nodo * raiz1, Nodo * raiz2){
     }
 }
 
+/**
+ * Retorna a quantidade de nodos com um único filho.
+ * @param arv
+ * @return
+ */
 int quant_um_filho(Arv_bin * arv){
     return quant_um_filho_no(arv->raiz);
 }
@@ -282,6 +327,11 @@ int quant_um_filho_no(Nodo * raiz){
     }
 }
 
+/**
+ * Recebe uma pilha dos valores em pre-ordem e cria uma árvore.
+ * @param entrada
+ * @return
+ */
 Arv_bin * constroi_arv(queue<int> * entrada){
     int cont, aux = 0;
     Arv_bin * arv = abb_cria();

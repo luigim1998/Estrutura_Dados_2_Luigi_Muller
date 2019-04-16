@@ -56,7 +56,7 @@ Nodo * dirRotate(Nodo * y) {
     Nodo *T2 = x->dir;
 
     x->dir = y;
-    x->esq = T2;
+    y->esq = T2;
 
     y->altura = max(altura(y->esq), altura(y->dir)) + 1;
     x->altura = max(altura(x->esq), altura(x->dir)) + 1;

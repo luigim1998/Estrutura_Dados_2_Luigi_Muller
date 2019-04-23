@@ -7,6 +7,12 @@ ArvRN * cria_arvore(){
     arv->raiz = arv->nil;
 }
 
+Nodo * cria_nodo(int v){
+    Nodo * aux = new Nodo;
+    aux->chave = v;
+    return aux;
+}
+
 void Insert(ArvRN * T, Nodo * z){
     Nodo * y = T->nil;
     Nodo * x = T->raiz;

@@ -17,6 +17,7 @@ typedef struct ArvRubNeg{
 }ArvRN;
 
 ArvRN * cria_arvore();
+Nodo * cria_nodo(int v);
 void Insert(ArvRN * T, Nodo * z);
 void Insert_Fixup(ArvRN * T, Nodo * z);
 void RightRot(ArvRN * T, Nodo * x);

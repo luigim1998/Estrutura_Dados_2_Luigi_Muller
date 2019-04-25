@@ -1,7 +1,33 @@
 #include "AVL.h"
 #include <stdlib.h>
 
+/**
+ * Cria a arvore e retorna o nodo.
+ * @return o nodo.
+ */
+Avl * cria_arv(){
+    Avl * aux = new Avl;
+    aux->raiz = NULL;
+    return aux;
+}
+
+/**
+ * Insere o valor na arvore.
+ * @param arv ponteiro da arvore.
+ * @param k valor a ser inserido.
+ */
+void arv_inserir(Avl * arv, int k){
+    arv->raiz = inserir(arv->raiz, k);
+}
+
+/**
+ * Insere o valor no nodo passado.
+ * @param raiz nodo da arvore;
+ * @param k valor a ser inserido;
+ * @return nodo da arvore balanceado;
+ */
 Nodo * inserir(Nodo * raiz, int k){
+    //Realiza a inserção
     if(raiz == NULL)
         return novo_nodo(k);
 
@@ -9,39 +35,64 @@ Nodo * inserir(Nodo * raiz, int k){
         raiz->esq = inserir(raiz->esq, k);
     else if(k > raiz->info)
         raiz->dir = inserir(raiz->dir, k);
+    //Retorna o nodo caso seja igual
     else
         return raiz;
 
+    //atualiza a altura
     raiz->altura = 1 + max(altura(raiz->esq), altura(raiz->dir));
+
     int fator_balanceamento = calcular_fator_balanceamento(raiz);
-    //LLC
+
+    /*Left Left Case - nodo está desbalanceado e seu filho
+     * estiver no mesmo sentido da inclinação*/
     if(fator_balanceamento < -1 && k < raiz->esq->info)
         return dirRotate(raiz);
-    //RRC
+    /*Right Right Case - nodo está desbalanceado e seu filho
+     * estiver no mesmo sentido da inclinação*/
     if(fator_balanceamento > 1 && k > raiz->dir->info)
         return esqRotate(raiz);
-    //LRC
+    /*Left Right Case - nodo está desbalanceado e seu filho está
+     * inclinado no sentido inverso ao pai, formando um "joelho"*/
     if(fator_balanceamento < -1 && k > raiz->esq->info){
         raiz->esq = esqRotate(raiz->esq);
         return dirRotate(raiz);
     }
-    //RLC
+    /*Right Left Case - nodo está desbalanceado e seu filho está
+     * inclinado no sentido inverso ao pai, formando um "joelho"*/
     if(fator_balanceamento > 1 && k < raiz->dir->info){
+        //precisamos fazer o nodo filho rotacionar para depois o nodo
         raiz->dir = dirRotate(raiz->dir);
         return esqRotate(raiz);
     }
     return raiz; //não precisa rotacionar
 }
 
+/**
+ * Retorna a altura do nodo.
+ * @param p nodo para calcular a altura.
+ * @return altura do nodo.
+ */
 int altura(Nodo * p){
     if(p == NULL) return -1;
     return p->altura;
 }
 
+/**
+ * Retorna o maior valor.
+ * @param a primeiro valor.
+ * @param b segundo valor.
+ * @return maior valor entre os dois valores passados.
+ */
 int max(int a, int b){
     return (a > b) ? a : b;
 }
 
+/**
+ * Cria um novo nodo com o valor passado para a funcao.
+ * @param info valor do nodo a criar.
+ * @return novo nodo.
+ */
 Nodo * novo_nodo(int info){
     Nodo * novo = new Nodo;
     novo->info = info;
@@ -51,38 +102,71 @@ Nodo * novo_nodo(int info){
     return novo;
 }
 
-Nodo * dirRotate(Nodo * y) {
-    Nodo *x = y->esq;
-    Nodo *T2 = x->dir;
+/**
+ * Faz a rotação do nodo para a direita.
+ * @param x nodo para rotacionar.
+ * @return nodo rotacionado.
+ */
+Nodo * dirRotate(Nodo * x) {
+    Nodo *y = x->esq;
+    Nodo *T2 = y->dir;
 
-    x->dir = y;
-    y->esq = T2;
+    y->dir = x;
+    x->esq = T2;
 
-    y->altura = max(altura(y->esq), altura(y->dir)) + 1;
-    x->altura = max(altura(x->esq), altura(x->dir)) + 1;
-
-    return x;
-}
-
-Nodo * esqRotate(Nodo * x){
-    Nodo * y = x->dir;
-    Nodo * T2 = y->dir;
-
-    y->esq = x;
-    x->dir = T2;
-
+    /*como somente x e y são alterados então
+     * precisamos calcular os tamanhos*/
     x->altura = max(altura(x->esq), altura(x->dir)) + 1;
     y->altura = max(altura(y->esq), altura(y->dir)) + 1;
 
     return y;
 }
 
+/**
+ * Faz a rotação do nodo para a esquerda.
+ * @param x nodo para rotacionar.
+ * @return nodo rotacionado.
+ */
+Nodo * esqRotate(Nodo * x){
+    Nodo * y = x->dir;
+    Nodo * T2 = y->esq;
+
+    y->esq = x;
+    x->dir = T2;
+
+    //como somente x e y são alterados então precisamos calcular os tamanhos
+    x->altura = max(altura(x->esq), altura(x->dir)) + 1;
+    y->altura = max(altura(y->esq), altura(y->dir)) + 1;
+
+    return y;
+}
+
+/**
+ * Calcular o fator de balanceamento.
+ * @param r nodo para calcular.
+ * @return fator de balanceamento.
+ */
 int calcular_fator_balanceamento(Nodo * r){
     if(r == NULL)
         return 0;
     return altura(r->dir) - altura(r->esq);
 }
 
+/**
+ * Remove o valor na arvore.
+ * @param arv ponteiro da arvore.
+ * @param k valor a ser removido.
+ */
+void arv_remover(Avl * arv, int k){
+    arv->raiz = remover(arv->raiz, k);
+}
+
+/**
+ * Remover o nodo que tem o passado para a funcao.
+ * @param raiz nodo para fazer a remocao.
+ * @param k valor a ser excluido.
+ * @return nodo com o valor removido.
+ */
 Nodo * remover(Nodo * raiz, int k){
     if(raiz == NULL)
         return NULL;
@@ -105,24 +189,29 @@ Nodo * remover(Nodo * raiz, int k){
             Nodo * aux = raiz;
             raiz = raiz->esq;
             delete aux;
-        }//só tem o filho à direita
+        }//tem dois filhos
         else {
             Nodo *aux = raiz->esq;
             while (aux->dir != NULL) {
                 aux = aux->dir;
-            }//troca as informações da raiz com o nodo mais à direita da sae
+            }/*troca as informações da raiz
+              * com o nodo mais à direita da sae*/
             raiz->info = aux->info;
             aux->info = k;
             raiz->esq = remover(raiz->esq, k);
         }
     }
+    //se a arvore só tinha um nodo, então retorna NULL
     if(raiz == NULL)
         return raiz;
 
+    //Atualiza o tamanho da raiz
     raiz->altura = 1 + max(altura(raiz->esq), altura(raiz->dir));
 
     int fator_balanceamento = calcular_fator_balanceamento(raiz);
 
+    /*se ambos os fatores de balanceamento tiverem o mesmo sinal faz
+     * rotação simples, senão faz rotação dupla*/
     if(fator_balanceamento < -1 && calcular_fator_balanceamento(raiz->esq) <= 0)
         return dirRotate(raiz);
     if(fator_balanceamento < -1 && calcular_fator_balanceamento(raiz->esq) > 0){

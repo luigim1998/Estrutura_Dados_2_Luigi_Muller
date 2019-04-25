@@ -212,14 +212,18 @@ Nodo * remover(Nodo * raiz, int k){
 
     /*se ambos os fatores de balanceamento tiverem o mesmo sinal faz
      * rotação simples, senão faz rotação dupla*/
+    //Left Left Case
     if(fator_balanceamento < -1 && calcular_fator_balanceamento(raiz->esq) <= 0)
         return dirRotate(raiz);
+    //Left Right Case
     if(fator_balanceamento < -1 && calcular_fator_balanceamento(raiz->esq) > 0){
         raiz->esq = esqRotate(raiz->esq);
         return dirRotate(raiz);
     }
+    //Right Right Case
     if(fator_balanceamento > 1 && calcular_fator_balanceamento(raiz->dir) >= 0)
         return dirRotate(raiz);
+    //Right Left Case
     if(fator_balanceamento > 1 && calcular_fator_balanceamento(raiz->dir) < 0){
         raiz->dir = dirRotate(raiz->dir);
         return esqRotate(raiz);

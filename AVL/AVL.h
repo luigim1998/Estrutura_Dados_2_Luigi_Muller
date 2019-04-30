@@ -23,5 +23,10 @@ Nodo * esqRotate(Nodo * x);
 int calcular_fator_balanceamento(Nodo * r);
 void arv_remover(Avl * arv, int k);
 Nodo * remover(Nodo * raiz, int k);
+Nodo *arv_busca(Avl *arv, int k);
+Nodo *busca(Nodo *raiz, int k);
+void arv_imprime_pre_ordem(Nodo *raiz);
+void arv_imprime_in_ordem(Nodo *raiz);
+void arv_imprime_pos_ordem(Nodo *raiz);
 
 #endif //AVL_AVL_H

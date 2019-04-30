@@ -1,5 +1,7 @@
 #include "AVL.h"
 #include <stdlib.h>
+#include <iostream>
+using namespace std;
 
 /**
  * Cria a arvore e retorna o nodo.
@@ -229,4 +231,50 @@ Nodo * remover(Nodo * raiz, int k){
         return esqRotate(raiz);
     }
     return raiz;
+}
+
+Nodo *arv_busca(Avl *arv, int k) {
+    if(arv == NULL){
+        return NULL;
+    } else {
+        return busca(arv->raiz, k);
+    }
+}
+
+Nodo *busca(Nodo *raiz, int k) {
+    if(raiz == NULL){
+        return NULL;
+    } else {
+        if(k < raiz->info){
+            return busca(raiz->esq, k);
+        } else if(k > raiz->info){
+            return busca(raiz->dir, k);
+        } else {
+            return raiz;
+        }
+    }
+}
+
+void arv_imprime_pre_ordem(Nodo *raiz){
+    if(raiz != NULL){
+        cout << raiz->info << " ";
+        arv_imprime_pre_ordem(raiz->esq);
+        arv_imprime_pre_ordem(raiz->dir);
+    }
+}
+
+void arv_imprime_in_ordem(Nodo *raiz){
+    if(raiz != NULL){
+        arv_imprime_in_ordem(raiz->esq);
+        cout << raiz->info << " ";
+        arv_imprime_in_ordem(raiz->dir);
+    }
+}
+
+void arv_imprime_pos_ordem(Nodo *raiz){
+    if(raiz != NULL){
+        arv_imprime_pos_ordem(raiz->esq);
+        arv_imprime_pos_ordem(raiz->dir);
+        cout << raiz->info << " ";
+    }
 }

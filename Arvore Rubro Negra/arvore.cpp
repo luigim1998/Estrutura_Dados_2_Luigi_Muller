@@ -1,4 +1,6 @@
 #include "arvore.h"
+#include <iostream>
+using namespace std;
 
 ArvRN * cria_arvore(){
     ArvRN * arv = new ArvRN;
@@ -69,10 +71,9 @@ void Insert_Fixup(ArvRN * T, Nodo * z){
                     z = z->pai;
                     RightRot(T, z);
                 }
-                    z->pai->color = NEGRO;//tio preto e z filho esquerdo
-                    z->pai->pai->color = VERMELHO;
-                    LeftRot(T, z->pai->pai);
-                }
+                z->pai->color = NEGRO;//tio preto e z filho esquerdo
+                z->pai->pai->color = VERMELHO;
+                LeftRot(T, z->pai->pai);
             }
         }
     }
@@ -129,7 +130,7 @@ Nodo * Arv_busca(ArvRN * T, int k){
     }
 }
 
-Nodo * busca(ArvRN * T, Nodo *raiz, int k) {
+Nodo * busca(ArvRN *T, Nodo *raiz, int k){
     if(raiz == T->nil){//ele não achou o valor pois chegou no nil
         return T->nil;
     } else {
@@ -161,7 +162,7 @@ void Remove(ArvRN *T, Nodo *z){//TODO: fazer a remoção
         x = z->esq;
         Transplante(T, z, z->esq);
     } else {
-        y = Arv_minimo(z->dir);
+        y = Arv_minimo(T, z->dir);
         y_original_color = y->color;
         x = y->dir;
         if(y->pai == z) {
@@ -236,7 +237,33 @@ void Remove_fixup(ArvRN * T, Nodo * x){
     x->color = NEGRO;
 }
 
-Nodo * Arv_minimo(Nodo * raiz){//TODO: falta fazer o Arv_minimo (Tree-minimum)
-
+Nodo * Arv_minimo(ArvRN * T, Nodo * raiz){
+    while(raiz->esq != T->nil){
+        raiz = raiz->esq;
+    }
+    return raiz;
 }
-//TODO: fazer a impressão e busca
+
+void arv_imprime_pre_ordem(ArvRN *T, Nodo *raiz) {
+    if(raiz != T->nil){
+        cout << raiz->chave << " ";
+        arv_imprime_pre_ordem(T, raiz->esq);
+        arv_imprime_pre_ordem(T, raiz->dir);
+    }
+}
+
+void arv_imprime_in_ordem(Nodo *raiz){
+    if(raiz != NULL){
+        arv_imprime_in_ordem(raiz->esq);
+        cout << raiz->chave << " ";
+        arv_imprime_in_ordem(raiz->dir);
+    }
+}
+
+void arv_imprime_pos_ordem(Nodo *raiz){
+    if(raiz != NULL){
+        arv_imprime_pos_ordem(raiz->esq);
+        arv_imprime_pos_ordem(raiz->dir);
+        cout << raiz->chave << " ";
+    }
+}

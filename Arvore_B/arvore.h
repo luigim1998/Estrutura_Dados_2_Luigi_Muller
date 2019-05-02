@@ -12,9 +12,13 @@ typedef struct no{
 
 typedef struct arvore{
     Nodo * raiz;
-    //Nodo * nil;
+    //Nodo * nil; caso ele volte, mudar o Arv_cria()
 }ArvB;
 
+int teto(int n);
+ArvB * Arv_cria();
+Nodo * Nodo_cria();
 Nodo * Arv_busca(Nodo * x, int k);
+Nodo * Arv_split_child(Nodo * x, int i);
 
 #endif //ARVORE_H

@@ -28,3 +28,13 @@ Arvore Rubro Negra/CMakeLists\.txt
 Arvore_B/cmake-build-debug/
 
 Arvore_B/\.idea/
+
+Atividade 2 - Arvore Binaria/obj/
+
+Atividade 2 - Arvore Binaria/bin/
+
+*.cbp
+
+*.depend
+
+*.o

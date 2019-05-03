@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1553263628 source:c:\users\luigi muller\documents\curso ciências da computação\estrutura de dados ii - dcc405\atividades\arvore binaria\principal.cpp
+	<stdio.h>
+	<stdlib.h>
+	"arvorebinaria.h"
+	<queue>
+
+1553262966 c:\users\luigi muller\documents\curso ciências da computação\estrutura de dados ii - dcc405\atividades\arvore binaria\arvorebinaria.h
+
+1553264370 source:c:\users\luigi muller\documents\curso ciências da computação\estrutura de dados ii - dcc405\atividades\arvore binaria\arvorebinaria.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"arvorebinaria.h"
+	<queue>
+	<stack>
+

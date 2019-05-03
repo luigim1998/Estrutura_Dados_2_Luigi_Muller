@@ -66,7 +66,7 @@ Nodo * Arv_split_child(Nodo * x, int i){//TODO: analisar o código
         x->filho[j+1] = x->filho[j];
     }
     x->filho[i+1] = z;//recebe o novo nodo
-    for(j = x->quant-1; j > i; j--){//
+    for(j = x->quant-1; j >= i; j--){//passa os valores depois de i para a frente para colocar o novo valor
         x->chave[j+1] = x->chave[j];
     }
     x->chave[i] = y->chave[teto(ORDEM/2.0) - 1];

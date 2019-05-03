@@ -1,13 +1,13 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
-#define ORDEM 4
+#define GRAU_MINIMO 4
 
 typedef struct no{
     int quant;
-    int chave[ORDEM-1];
     bool folha;
-    no * filho[ORDEM];
+    int * chave;
+    no ** filho;
 }Nodo;
 
 typedef struct arvore{

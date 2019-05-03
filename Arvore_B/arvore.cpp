@@ -19,6 +19,8 @@ Nodo * Nodo_cria(){
     Nodo * raiz = new Nodo;
     raiz->folha = true;
     raiz->quant = 0;
+    raiz->chave = new int[2*GRAU_MINIMO - 1];
+    raiz->filho = new Nodo*[2*GRAU_MINIMO];
 }
 
 Nodo * Arv_busca(Nodo * x, int k){
@@ -47,21 +49,21 @@ Nodo * Arv_busca(Nodo * x, int k){
     }
 }
 
-Nodo * Arv_split_child(Nodo * x, int i){//TODO: analisar o código
+Nodo * Arv_split_child(Nodo * x, int i){
     Nodo * z = Nodo_cria();
     Nodo * y = x->filho[i];
     int j;
     z->folha = y->folha;//se o filho for uma folha, ele também é
-    z->quant = teto(ORDEM/2.0) - 1;//a nova quantidade do novo nodo
-    for(j = 0; j < ORDEM - 1 - teto(ORDEM/2.0); j++){//as chaves são passadas para o novo nodo
-        z->chave[j] = y->chave[j+teto(ORDEM/2.0)];
+    z->quant = GRAU_MINIMO - 1;//a nova quantidade do novo nodo
+    for(j = 0; j < GRAU_MINIMO - 1; j++){//as chaves são passadas para o novo nodo
+        z->chave[j] = y->chave[j+GRAU_MINIMO];
     }
     if(!y->folha){//coloca os filhos no novo nodo
-        for(j = 0; j < ORDEM - teto(ORDEM/2.0); j++){
-            z->filho[j] = y->filho[j+teto(ORDEM/2.0)];
+        for(j = 0; j < GRAU_MINIMO; j++){
+            z->filho[j] = y->filho[j+GRAU_MINIMO];
         }
     }
-    y->quant = teto(ORDEM/2.0) - 1;//atualiza a quantidade
+    y->quant = GRAU_MINIMO - 1;//atualiza a quantidade
     for(j = x->quant; j > i; j--){
         x->filho[j+1] = x->filho[j];
     }
@@ -69,6 +71,21 @@ Nodo * Arv_split_child(Nodo * x, int i){//TODO: analisar o código
     for(j = x->quant-1; j >= i; j--){//passa os valores depois de i para a frente para colocar o novo valor
         x->chave[j+1] = x->chave[j];
     }
-    x->chave[i] = y->chave[teto(ORDEM/2.0) - 1];
+    x->chave[i] = y->chave[GRAU_MINIMO];
     x->quant = x->quant + 1;
+}
+
+void Arv_insere(ArvB * T, int k){//TODO: analisar função
+    Nodo * r = T->raiz;
+    if(r->quant == 2*GRAU_MINIMO -1){
+        Nodo * s = Nodo_cria();
+        T->raiz = s;
+        s->folha = false;
+        s->quant = 0;
+        s->filho[0] = r;
+        Arv_split_child(s, 0);
+        Arv_insere_nao_vazio(s, k);
+    } else {
+        Arv_insere_nao_vazio(r, k);
+    }
 }

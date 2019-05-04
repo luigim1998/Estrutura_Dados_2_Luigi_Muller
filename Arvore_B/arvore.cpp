@@ -84,8 +84,37 @@ void Arv_insere(ArvB * T, int k){//TODO: analisar função
         s->quant = 0;
         s->filho[0] = r;
         Arv_split_child(s, 0);
-        Arv_insere_nao_vazio(s, k);
+        Arv_insere_nao_cheia(s, k);
     } else {
-        Arv_insere_nao_vazio(r, k);
+        Arv_insere_nao_cheia(r, k);
+    }
+}
+
+void Arv_insere_nao_cheia(Nodo *x, int k) {
+    int i = x->quant-1;
+    if(x->folha){
+        while(i>=0){
+            if(k < x->chave[i]) {
+                x->chave[i + 1] = x->chave[i];//o valor é jogado para a frente
+                i--;
+            }
+        }
+        x->chave[i+1] = k;//recebe o novo valor
+        (x->quant)++;
+    } else {
+        while(i>=0){//aponta para o indice do vetor que será inserido k
+            if(k < x->chave[i]) {
+                i--;
+            }
+        }
+        i++;
+        //se o filho que receberá k está cheio então separa
+        if(x->filho[i]->quant == 2*GRAU_MINIMO - 1){
+            Arv_split_child(x, i);
+            if(k > x->chave[i]){//ele incrementa se a chave for maior
+                i++;
+            }
+        }
+        Arv_insere_nao_cheia(x->filho[i], k);
     }
 }

@@ -20,5 +20,6 @@ ArvB * Arv_cria();
 Nodo * Nodo_cria();
 Nodo * Arv_busca(Nodo * x, int k);
 Nodo * Arv_split_child(Nodo * x, int i);
+void Arv_insere_nao_cheia(Nodo *x, int k);
 
 #endif //ARVORE_H

@@ -118,3 +118,76 @@ void Arv_insere_nao_cheia(Nodo *x, int k) {
         Arv_insere_nao_cheia(x->filho[i], k);
     }
 }
+
+void Arv_remove(Nodo * raiz, int k){
+    Nodo * pai = NULL;
+    Nodo * filho = raiz;
+    int i = 0;
+
+    while(filho->chave[i] != k){
+        //seleciona o indice que raiz->chave[i-1] < k <= raiz->chave[i]
+        while(i < filho->quant){
+            if(k > filho->chave[i])
+                i = i + 1;
+        }
+        if(k == filho->chave[i]){//se for igual é esse o nodo e sai do loop
+            break;
+        } else {//atualiza o pai e o filho
+            pai = filho;
+            filho = filho->filho[i];
+        }
+        i = 0;
+    }
+
+    if(!filho->folha){//caso 2: não está na folha
+        Nodo * aux_pai = filho;
+        Nodo * aux_filho = filho->filho[i];
+        //busca o antecedente
+        while(!aux_filho->folha){
+            aux_pai = aux_filho;
+            aux_filho = aux_filho->filho[aux_filho->quant - 1];//recebe o ultimo filho
+        }
+        filho->chave[i] = aux_filho->chave[aux_filho->quant-1];//troca o valor
+        aux_filho->quant = aux_filho->quant - 1;//remover valor
+        pai = aux_pai;
+        filho = aux_filho;
+    } else {
+        //caso 1: é uma folha e tem o suficiente para retirar
+        if (filho->quant > GRAU_MINIMO - 1) {
+            while (i < filho->quant - 1) {//apaga os valores
+                filho->chave[i] = filho->chave[i + 1];
+                i++;
+            }
+        } else {//não tem o suficiente
+            if(i > 0){//pode pegar do nodo anterior
+                if(pai->filho[i-1]->quant > GRAU_MINIMO - 1){//caso 3: pode dar uma chave
+                    int cont = filho->quant - 1;
+                    while(cont >= 0){
+                        filho->chave[cont+1] = filho->chave[cont];
+                        cont--;
+                    }
+                    filho->chave[0] = pai->chave[i-1];//passa o valor do pai para o filho
+                    filho->quant = filho->quant + 1;
+                    pai->chave[i-1] = pai->filho[i-1]->chave[pai->filho[i-1]->quant - 1];//a chave recebe o antecessor
+                    pai->filho[i-1]->quant = pai->filho[i-1]->quant - 1;
+                } else {
+
+                }
+            } else {//pega o nodo da frente
+                if(pai->filho[i+1]->quant > GRAU_MINIMO - 1){//caso 3: pode dar uma chave
+                    filho->chave[filho->quant] = pai->chave[0];//passa o valor do pai para o filho
+                    filho->quant = filho->quant + 1;
+                    pai->chave[i] = pai->filho[i+1]->chave[0];//a chave recebe o sucessor
+                    int cont = 1;
+                    while(cont < pai->filho[i+1]->quant){
+                        pai->filho[i+1]->chave[cont-1] = pai->filho[i+1]->chave[cont];
+                        cont++;
+                    }
+                    pai->filho[i+1]->quant = pai->filho[i+1]->quant - 1;
+                } else {
+
+                }
+            }
+        }
+    }
+}

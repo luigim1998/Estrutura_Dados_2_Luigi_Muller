@@ -15,17 +15,17 @@ Avl * cria_arv(){
 
 /**
  * Insere o valor na arvore.
- * @param arv ponteiro da arvore.
- * @param k valor a ser inserido.
+ * @param arv - ponteiro da arvore.
+ * @param k - valor a ser inserido.
  */
-void arv_inserir(Avl * arv, int k){
+void Arv_inserir(Avl *arv, int k){
     arv->raiz = inserir(arv->raiz, k);
 }
 
 /**
  * Insere o valor no nodo passado.
- * @param raiz nodo da arvore;
- * @param k valor a ser inserido;
+ * @param raiz - nodo da arvore;
+ * @param k - valor a ser inserido;
  * @return nodo da arvore balanceado;
  */
 Nodo * inserir(Nodo * raiz, int k){
@@ -72,7 +72,7 @@ Nodo * inserir(Nodo * raiz, int k){
 
 /**
  * Retorna a altura do nodo.
- * @param p nodo para calcular a altura.
+ * @param p - nodo para calcular a altura.
  * @return altura do nodo.
  */
 int altura(Nodo * p){
@@ -82,8 +82,8 @@ int altura(Nodo * p){
 
 /**
  * Retorna o maior valor.
- * @param a primeiro valor.
- * @param b segundo valor.
+ * @param a - primeiro valor.
+ * @param b - segundo valor.
  * @return maior valor entre os dois valores passados.
  */
 int max(int a, int b){
@@ -92,7 +92,7 @@ int max(int a, int b){
 
 /**
  * Cria um novo nodo com o valor passado para a funcao.
- * @param info valor do nodo a criar.
+ * @param info - valor do nodo a criar.
  * @return novo nodo.
  */
 Nodo * novo_nodo(int info){
@@ -106,7 +106,7 @@ Nodo * novo_nodo(int info){
 
 /**
  * Faz a rotação do nodo para a direita.
- * @param x nodo para rotacionar.
+ * @param x - nodo para rotacionar.
  * @return nodo rotacionado.
  */
 Nodo * dirRotate(Nodo * x) {
@@ -126,7 +126,7 @@ Nodo * dirRotate(Nodo * x) {
 
 /**
  * Faz a rotação do nodo para a esquerda.
- * @param x nodo para rotacionar.
+ * @param x - nodo para rotacionar.
  * @return nodo rotacionado.
  */
 Nodo * esqRotate(Nodo * x){
@@ -145,7 +145,7 @@ Nodo * esqRotate(Nodo * x){
 
 /**
  * Calcular o fator de balanceamento.
- * @param r nodo para calcular.
+ * @param r - nodo para calcular.
  * @return fator de balanceamento.
  */
 int calcular_fator_balanceamento(Nodo * r){
@@ -156,17 +156,17 @@ int calcular_fator_balanceamento(Nodo * r){
 
 /**
  * Remove o valor na arvore.
- * @param arv ponteiro da arvore.
- * @param k valor a ser removido.
+ * @param arv - ponteiro da arvore.
+ * @param k - valor a ser removido.
  */
-void arv_remover(Avl * arv, int k){
+void Arv_remover(Avl *arv, int k){
     arv->raiz = remover(arv->raiz, k);
 }
 
 /**
  * Remover o nodo que tem o passado para a funcao.
- * @param raiz nodo para fazer a remocao.
- * @param k valor a ser excluido.
+ * @param raiz - nodo para fazer a remocao.
+ * @param k - valor a ser excluido.
  * @return nodo com o valor removido.
  */
 Nodo * remover(Nodo * raiz, int k){
@@ -196,8 +196,9 @@ Nodo * remover(Nodo * raiz, int k){
             Nodo *aux = raiz->esq;
             while (aux->dir != NULL) {
                 aux = aux->dir;
-            }/*troca as informações da raiz
-              * com o nodo mais à direita da sae*/
+            }
+            /*troca as informações da raiz
+             * com o nodo mais à direita da sae*/
             raiz->info = aux->info;
             aux->info = k;
             raiz->esq = remover(raiz->esq, k);
@@ -233,7 +234,15 @@ Nodo * remover(Nodo * raiz, int k){
     return raiz;
 }
 
-Nodo *arv_busca(Avl *arv, int k) {
+/**
+ * Chama a função de busca se a raiz não for nula.
+ * Se for nula, ele retorna nulo.
+ * @param arv - ponteiro da árvore;
+ * @param k - inteiro a ser buscado;
+ * @return retorna o nodo com o valor do ponteiro ou nulo se não achar
+ * ou a árvore for nula.
+ */
+Nodo * Arv_busca(Avl *arv, int k) {
     if(arv == NULL){
         return NULL;
     } else {
@@ -241,6 +250,12 @@ Nodo *arv_busca(Avl *arv, int k) {
     }
 }
 
+/**
+ * Função de busca.
+ * @param raiz - nodo a ser buscado;
+ * @param k - valor a ser buscado;
+ * @return nodo com o valor ou nulo.
+ */
 Nodo *busca(Nodo *raiz, int k) {
     if(raiz == NULL){
         return NULL;
@@ -255,26 +270,38 @@ Nodo *busca(Nodo *raiz, int k) {
     }
 }
 
-void arv_imprime_pre_ordem(Nodo *raiz){
+/**
+ * Imprime em pre-ordem a árvore.
+ * @param raiz - raiz a ser impresso.
+ */
+void Arv_imprime_pre_ordem(Nodo *raiz){
     if(raiz != NULL){
         cout << raiz->info << " ";
-        arv_imprime_pre_ordem(raiz->esq);
-        arv_imprime_pre_ordem(raiz->dir);
+        Arv_imprime_pre_ordem(raiz->esq);
+        Arv_imprime_pre_ordem(raiz->dir);
     }
 }
 
-void arv_imprime_in_ordem(Nodo *raiz){
+/**
+ * Imprime em in-ordem a árvore.
+ * @param raiz - raiz a ser impresso.
+ */
+void Arv_imprime_in_ordem(Nodo *raiz){
     if(raiz != NULL){
-        arv_imprime_in_ordem(raiz->esq);
+        Arv_imprime_in_ordem(raiz->esq);
         cout << raiz->info << " ";
-        arv_imprime_in_ordem(raiz->dir);
+        Arv_imprime_in_ordem(raiz->dir);
     }
 }
 
-void arv_imprime_pos_ordem(Nodo *raiz){
+/**
+ * Imprime em pos-ordem a árvore.
+ * @param raiz - raiz a ser impresso.
+ */
+void Arv_imprime_pos_ordem(Nodo *raiz){
     if(raiz != NULL){
-        arv_imprime_pos_ordem(raiz->esq);
-        arv_imprime_pos_ordem(raiz->dir);
+        Arv_imprime_pos_ordem(raiz->esq);
+        Arv_imprime_pos_ordem(raiz->dir);
         cout << raiz->info << " ";
     }
 }

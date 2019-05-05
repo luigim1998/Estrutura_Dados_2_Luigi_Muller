@@ -12,6 +12,8 @@ ArvRN * cria_arvore(){
 Nodo * cria_nodo(int v){
     Nodo * aux = new Nodo;
     aux->chave = v;
+    aux->color = VERMELHO;
+    aux->esq = aux->dir = aux->pai = NULL;
     return aux;
 }
 
@@ -41,37 +43,37 @@ void Insert(ArvRN * T, Nodo * z){
 }
 
 void Insert_Fixup(ArvRN * T, Nodo * z){
-    Nodo * y;
+    Nodo * y;//recebe  o tio
     while(z->pai->color == VERMELHO){
         if(z->pai == z->pai->pai->esq){//pai esta a esquerda do avo
             y = z->pai->pai->dir;
-            if(y->color == VERMELHO){//tio eh vermelho
+            if(y->color == VERMELHO){//caso 1: pai e tio eh vermelho
                 z->pai->color = NEGRO;
                 y->color = NEGRO;
                 z->pai->pai->color = VERMELHO;
                 z = z->pai->pai;
-            } else {
-                if (z == z->pai->dir) {//tio preto e z filho direito
+            } else {//tio é preto
+                if (z == z->pai->dir) {//caso 2: tio preto e z filho direito
                     z = z->pai;
                     LeftRot(T, z);
                 }
-                z->pai->color = NEGRO;//tio preto e z filho esquerdo
+                z->pai->color = NEGRO;//caso 3: tio preto e z filho esquerdo
                 z->pai->pai->color = VERMELHO;
                 RightRot(T, z->pai->pai);
             }
         } else {//pai esta a direita do avo
             y = z->pai->pai->esq;
-            if(y->color == VERMELHO){//tio eh vermelho
+            if(y->color == VERMELHO){//caso 1: pai e tio eh vermelho
                 z->pai->color = NEGRO;
                 y->color = NEGRO;
                 z->pai->pai->color = VERMELHO;
                 z = z->pai->pai;
             } else {
-                if (z == z->pai->esq) {//tio preto e z filho direito
+                if (z == z->pai->esq) {//caso 2: tio preto e z filho direito
                     z = z->pai;
                     RightRot(T, z);
                 }
-                z->pai->color = NEGRO;//tio preto e z filho esquerdo
+                z->pai->color = NEGRO;//caso 3: tio preto e z filho esquerdo
                 z->pai->pai->color = VERMELHO;
                 LeftRot(T, z->pai->pai);
             }
@@ -151,23 +153,23 @@ void Arv_remove(ArvRN * T, int k){
     }
 }
 
-void Remove(ArvRN *T, Nodo *z){//TODO: fazer a remoção
+void Remove(ArvRN *T, Nodo *z){
     Nodo * y = z;
     Nodo * x;
     Cor y_original_color = y->color;
-    if(z->esq == T->nil){
+    if(z->esq == T->nil){//pega o nodo da direita
         x = z->dir;
         Transplante(T, z, z->dir);
-    } else if(z->dir == T->nil){
+    } else if(z->dir == T->nil){//pega o nodo da esquerda
         x = z->esq;
         Transplante(T, z, z->esq);
-    } else {
-        y = Arv_minimo(T, z->dir);
-        y_original_color = y->color;
-        x = y->dir;
-        if(y->pai == z) {
+    } else {//ele tem dois filhos
+        y = Arv_minimo(T, z->dir);//recebe o sucessor
+        y_original_color = y->color;//recebe a cor
+        x = y->dir;//recebe o nodo a direita, não há nodo a esquerda
+        if(y->pai == z) {//se z for pai de y
             x->pai = y;
-        } else {
+        } else {//se z não for pai de y
             Transplante(T, y, y->dir);
             y->dir = z->dir;
             y->dir->pai = y;
@@ -184,9 +186,9 @@ void Remove(ArvRN *T, Nodo *z){//TODO: fazer a remoção
 void Remove_fixup(ArvRN * T, Nodo * x){
     Nodo * w;
     while(x != T->raiz && x->color == NEGRO){
-        if(x == x->pai->esq) {
-            w = x->pai->dir;
-            if (w->color == VERMELHO) {
+        if(x == x->pai->esq) {//está a esquerda do pai
+            w = x->pai->dir;//recebe o irmão
+            if (w->color == VERMELHO) {//irmão é vermelho
                 w->color = NEGRO;
                 x->pai->color = VERMELHO;
                 LeftRot(T, x->pai);
@@ -244,26 +246,26 @@ Nodo * Arv_minimo(ArvRN * T, Nodo * raiz){
     return raiz;
 }
 
-void arv_imprime_pre_ordem(ArvRN *T, Nodo *raiz) {
+void Arv_imprime_pre_ordem(ArvRN *T, Nodo *raiz) {
     if(raiz != T->nil){
         cout << raiz->chave << " ";
-        arv_imprime_pre_ordem(T, raiz->esq);
-        arv_imprime_pre_ordem(T, raiz->dir);
+        Arv_imprime_pre_ordem(T, raiz->esq);
+        Arv_imprime_pre_ordem(T, raiz->dir);
     }
 }
 
-void arv_imprime_in_ordem(Nodo *raiz){
+void Arv_imprime_in_ordem(Nodo *raiz){
     if(raiz != NULL){
-        arv_imprime_in_ordem(raiz->esq);
+        Arv_imprime_in_ordem(raiz->esq);
         cout << raiz->chave << " ";
-        arv_imprime_in_ordem(raiz->dir);
+        Arv_imprime_in_ordem(raiz->dir);
     }
 }
 
-void arv_imprime_pos_ordem(Nodo *raiz){
+void Arv_imprime_pos_ordem(Nodo *raiz){
     if(raiz != NULL){
-        arv_imprime_pos_ordem(raiz->esq);
-        arv_imprime_pos_ordem(raiz->dir);
+        Arv_imprime_pos_ordem(raiz->esq);
+        Arv_imprime_pos_ordem(raiz->dir);
         cout << raiz->chave << " ";
     }
 }

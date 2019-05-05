@@ -1,7 +1,7 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
-#define GRAU_MINIMO 4
+#define GRAU_MINIMO 3
 
 typedef struct no{
     int quant;
@@ -15,11 +15,12 @@ typedef struct arvore{
     //Nodo * nil; caso ele volte, mudar o Arv_cria()
 }ArvB;
 
-int teto(int n);
 ArvB * Arv_cria();
 Nodo * Nodo_cria();
 Nodo * Arv_busca(Nodo * x, int k);
 Nodo * Arv_split_child(Nodo * x, int i);
+void Arv_insere(ArvB * T, int k);
 void Arv_insere_nao_cheia(Nodo *x, int k);
+void Arv_remove(Nodo * raiz, int k);
 
 #endif //ARVORE_H

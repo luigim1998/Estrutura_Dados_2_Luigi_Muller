@@ -1,20 +1,20 @@
 #include "arvore.h"
 #include <stdlib.h>
 
-int teto(double n){
-    if((n - (int)n) > 0){
-        return (int)(n) + 1;
-    } else {
-        return (int)(n);
-    }
-}
-
+/**
+ * Cria uma árvore.
+ * @return ponteiro da nova árvore.
+ */
 ArvB * Arv_cria(){
     ArvB * arv = new ArvB;
     Nodo * raiz = Nodo_cria();
     arv->raiz = raiz;
 }
 
+/**
+ * Cria um nodo.
+ * @return ponteiro do novo nodo.
+ */
 Nodo * Nodo_cria(){
     Nodo * raiz = new Nodo;
     raiz->folha = true;
@@ -23,6 +23,12 @@ Nodo * Nodo_cria(){
     raiz->filho = new Nodo*[2*GRAU_MINIMO];
 }
 
+/**
+ *
+ * @param x
+ * @param k
+ * @return
+ */
 Nodo * Arv_busca(Nodo * x, int k){
     int i = 0;
 
@@ -33,6 +39,8 @@ Nodo * Arv_busca(Nodo * x, int k){
     while(i < x->quant){
         if(k > x->chave[i])
             i = i + 1;
+        else
+            break;
     }
 
     /* os operadores relacionais estão separados pois
@@ -75,9 +83,9 @@ Nodo * Arv_split_child(Nodo * x, int i){
     x->quant = x->quant + 1;
 }
 
-void Arv_insere(ArvB * T, int k){//TODO: analisar função
+void Arv_insere(ArvB * T, int k){
     Nodo * r = T->raiz;
-    if(r->quant == 2*GRAU_MINIMO -1){
+    if(r->quant == 2*GRAU_MINIMO -1){//está cheia
         Nodo * s = Nodo_cria();
         T->raiz = s;
         s->folha = false;
@@ -97,6 +105,8 @@ void Arv_insere_nao_cheia(Nodo *x, int k) {
             if(k < x->chave[i]) {
                 x->chave[i + 1] = x->chave[i];//o valor é jogado para a frente
                 i--;
+            } else {
+                break;
             }
         }
         x->chave[i+1] = k;//recebe o novo valor
@@ -105,6 +115,8 @@ void Arv_insere_nao_cheia(Nodo *x, int k) {
         while(i>=0){//aponta para o indice do vetor que será inserido k
             if(k < x->chave[i]) {
                 i--;
+            } else {
+                break;
             }
         }
         i++;
@@ -129,6 +141,8 @@ void Arv_remove(Nodo * raiz, int k){
         while(i < filho->quant){
             if(k > filho->chave[i])
                 i = i + 1;
+            else
+                break;
         }
         if(k == filho->chave[i]){//se for igual é esse o nodo e sai do loop
             break;
@@ -170,8 +184,20 @@ void Arv_remove(Nodo * raiz, int k){
                     filho->quant = filho->quant + 1;
                     pai->chave[i-1] = pai->filho[i-1]->chave[pai->filho[i-1]->quant - 1];//a chave recebe o antecessor
                     pai->filho[i-1]->quant = pai->filho[i-1]->quant - 1;
-                } else {
-
+                } else {//caso 4: dá merge
+                    int cont = 0;
+                    pai->filho[i-1]->chave[pai->filho[i-1]->quant] = pai->chave[i-1];//o nodo recebe a chave do pai
+                    pai->filho[i-1]->quant = pai->filho[i-1]->quant + 1;//imcrementa
+                    while(cont < filho->quant){//faz o merge
+                        pai->filho[i-1]->chave[pai->filho[i-1]->quant] = filho->chave[cont];
+                        pai->filho[i-1]->quant = pai->filho[i-1]->quant + 1;
+                    }
+                    cont = i+1;
+                    while(cont < pai->quant){
+                        pai->chave[cont - 1] = pai->chave[cont];
+                        pai->filho[cont] = pai->filho[cont+1];
+                    }
+                    pai->quant = pai->quant - 1;
                 }
             } else {//pega o nodo da frente
                 if(pai->filho[i+1]->quant > GRAU_MINIMO - 1){//caso 3: pode dar uma chave
@@ -184,8 +210,20 @@ void Arv_remove(Nodo * raiz, int k){
                         cont++;
                     }
                     pai->filho[i+1]->quant = pai->filho[i+1]->quant - 1;
-                } else {
-
+                } else {//caso 4: dá merge
+                    int cont = 0;
+                    filho->chave[filho->quant] = pai->chave[i];//o nodo recebe a chave do pai
+                    filho->quant = filho->quant + 1;//imcrementa
+                    while(cont < pai->filho[i+1]->quant){//faz o merge
+                        filho->chave[filho->quant] = pai->filho[i+1]->chave[cont];
+                        filho->quant = filho->quant + 1;
+                    }
+                    cont = i+1;
+                    while(cont < pai->quant){
+                        pai->chave[cont - 1] = pai->chave[cont];
+                        pai->filho[cont] = pai->filho[cont+1];
+                    }
+                    pai->quant = pai->quant - 1;
                 }
             }
         }

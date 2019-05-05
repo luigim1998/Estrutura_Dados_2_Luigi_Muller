@@ -2,40 +2,50 @@
 #include "AVL.h"
 using namespace std;
 
+/*
+ * Função de criar a árvore: cria_arv();
+ * Função de inserção: Arv_inserir();
+ * Função de remoção: Arv_remover();
+ * Função de busca: Arv_busca();
+ * Função de impressão em pre-ordem: Arv_imprime_pre_ordem();
+ * Função de impressão em in-ordem: Arv_imprime_in_ordem();
+ * Função de impressão em pos-ordem: Arv_imprime_pos_ordem();
+ */
 int main(){
     Avl * arv = cria_arv();
     Nodo * aux;
-    arv_inserir(arv,  50);
-    arv_inserir(arv,  25);
-    arv_inserir(arv,  75);
-    arv_inserir(arv,  12);
-    arv_inserir(arv,   6);
-    arv_inserir(arv,  90);
-    arv_inserir(arv, 100);
-    arv_inserir(arv, 120);
-    arv_inserir(arv, 110);
-    arv_inserir(arv,   3);
-    arv_inserir(arv,   5);
 
-    arv_remover(arv, 50);
+    Arv_inserir(arv, 100);
+    Arv_inserir(arv,  50);
+    Arv_inserir(arv,  35);
+    Arv_inserir(arv,  25);
+    Arv_inserir(arv,  30);
+    Arv_inserir(arv, 150);
+    Arv_inserir(arv, 200);
+    Arv_inserir(arv, 250);
+    Arv_inserir(arv, 220);
+    Arv_inserir(arv, 270);
+
+    Arv_remover(arv, 250);
+    Arv_remover(arv, 270);
 
     cout << "Pre-ordem: ";
-    arv_imprime_pre_ordem(arv->raiz);
+    Arv_imprime_pre_ordem(arv->raiz);
     cout << "\nIn-ordem: ";
-    arv_imprime_in_ordem(arv->raiz);
+    Arv_imprime_in_ordem(arv->raiz);
     cout << "\nPos-ordem: ";
-    arv_imprime_pos_ordem(arv->raiz);
+    Arv_imprime_pos_ordem(arv->raiz);
     cout << endl;
 
-    aux = arv_busca(arv, 100);
+    aux = Arv_busca(arv, 100);
     if(aux == NULL) cout << -1 << endl;
     else  cout << aux->info << endl;
 
-    aux = arv_busca(arv, 20);
+    aux = Arv_busca(arv, 20);
     if(aux == NULL) cout << -1 << endl;
     else  cout << aux->info << endl;
 
-    aux = arv_busca(arv, 6);
+    aux = Arv_busca(arv, 6);
     if(aux == NULL) cout << -1 << endl;
     else  cout << aux->info << endl;
     return 0;

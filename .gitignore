@@ -38,3 +38,9 @@ Atividade 2 - Arvore Binaria/bin/
 *.depend
 
 *.o
+
+Arvore Heap/cmake-build-debug/
+
+Arvore Heap/\.idea/
+
+Arvore Heap/CMakeLists\.txt

@@ -12,11 +12,20 @@ typedef struct arvore{
     int * vector;//vetor de valores;
 }ArvHeap;
 
+void print_heap(ArvHeap * A);
+
 void build_max_heap(ArvHeap * A);
 void max_heapify(ArvHeap * A, int indice);
 void heapsort(ArvHeap * A);
-int maximum(ArvHeap * A);
-int heap_extract_max(ArvHeap * A);
+
+int  maximum(ArvHeap * A);
+int  heap_extract_max(ArvHeap * A);
 void heap_increase_key(ArvHeap * A, int i, int key);
+void max_heap_insert(ArvHeap * A, int key);
+
+int  minimum(ArvHeap * A);
+int  heap_extract_min(ArvHeap * A);
+void heap_decrease_key(ArvHeap * A, int i, int key);
+void min_heap_insert(ArvHeap * A, int key);
 
 #endif

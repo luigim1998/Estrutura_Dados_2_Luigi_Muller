@@ -173,6 +173,8 @@ int heap_extract_min(ArvHeap * A){
         cout << "heap underflow" << endl;
         return 0;
     }
+    //salva o número antes de ser modificados pela função heapsort e build_max_heap
+    int tamanho = A->heap_size - 1;
     //executa o heapsort para pegar o menor número
     heapsort(A);
     int min_num = A->vector[0];
@@ -180,6 +182,7 @@ int heap_extract_min(ArvHeap * A){
     A->heap_size = A->heap_size - 1;
     //reconstrói a árvore
     build_max_heap(A);
+    A->heap_size = tamanho;
     print_heap(A);
     return min_num;
 }

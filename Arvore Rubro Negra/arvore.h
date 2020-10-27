@@ -6,14 +6,14 @@ typedef enum {VERMELHO, NEGRO}Cor;
 typedef struct node{
     Cor color;
     int chave;
-    node * esq;
-    node * dir;
-    node * pai;
+    struct node * esq;
+    struct node * dir;
+    struct node * pai;
 }Nodo;
 
 typedef struct ArvRubNeg{
-    node * raiz;
-    node * nil;
+    struct node * raiz;
+    struct node * nil;
 }ArvRN;
 
 ArvRN * cria_arvore();

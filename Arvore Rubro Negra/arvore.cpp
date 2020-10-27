@@ -7,6 +7,7 @@ ArvRN * cria_arvore(){
     arv->nil = new Nodo;
     arv->nil->color = NEGRO;
     arv->raiz = arv->nil;
+    return arv;
 }
 
 Nodo * cria_nodo(int v){
